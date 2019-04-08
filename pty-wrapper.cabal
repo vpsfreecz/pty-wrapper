@@ -1,0 +1,51 @@
+name:                pty-wrapper
+version:             0.1.0.0
+synopsis:            PTY wrapper
+description:         Run executable wrapped in pseudoterminal with UNIX domain socket for communicating with it.
+homepage:            https://github.com/vpsfreecz/pty-wrapper
+license:             BSD3
+license-file:        LICENSE
+author:              Richard Marko
+maintainer:          srk@48.io
+copyright:           2019 Richard Marko
+category:            System
+build-type:          Simple
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     System.Posix.PtyWrapper
+                     , System.Posix.PtyWrapper.Types
+  build-depends:       base >= 4.7 && < 5
+                     , async
+                     , aeson
+                     , bytestring
+                     , data-default
+                     , network
+                     , posix-pty
+                     , stm
+                     , text
+  default-language:    Haskell2010
+  ghc-options:         -Wall
+
+executable pty-wrapper
+  hs-source-dirs:      app
+  main-is:             Main.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+                     , bytestring
+                     , pty-wrapper
+  default-language:    Haskell2010
+
+executable pty-wrapper-client
+  hs-source-dirs:      app
+  main-is:             Client.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+                     , bytestring
+                     , pty-wrapper
+  default-language:    Haskell2010
+
+source-repository head
+  type:     git
+  location: https://github.com/vpsfreecz/pty-wrapper
