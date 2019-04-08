@@ -10,7 +10,7 @@ pseudoterminal. Sample protocol messages:
 
 ```json
 {"keys": "pq", "rows": null, "cols" :null}
-{"keys":null,"rows":10,"cols":20}
+{"keys": null, "rows": 10,   "cols": 20}
 ```
 
 Client side recieves raw data as output from the executable.
@@ -20,6 +20,7 @@ Usage
 
 ```bash
 nix build
+
 # run server
 ./result/bin/pty-wrapper /tmp/testsock.ipc htop
 
