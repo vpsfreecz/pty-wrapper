@@ -22,7 +22,7 @@ Usage
 nix build
 
 # run server
-./result/bin/pty-wrapper /tmp/testsock.ipc htop
+./result/bin/pty-wrapper processTitle /tmp/testsock.ipc htop
 
 # in another terminal, run sample client
 sudo ./result/bin/pty-wrapper-client /tmp/testsock.ipc

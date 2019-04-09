@@ -28,12 +28,13 @@ import Network.Socket.ByteString
 -- so we can talk to it over UNIX domain sockets
 spawnWithPtyWrapper :: FilePath -- ^ Socket target path
                     -> FilePath -- ^ Path of the executable
+                    -> [String] -- ^ Command line arguments
                     -> IO ()
-spawnWithPtyWrapper sockPath procName =
+spawnWithPtyWrapper sockPath procName args =
   spawnWithPtyWrapperOpts
     sockPath
     procName
-    []
+    args
     Nothing
     (80, 40)
     DoSearchPath

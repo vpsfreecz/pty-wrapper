@@ -6,5 +6,5 @@ import System.Posix.PtyWrapper
 main = do
   args <- getArgs
   case args of
-    [sockPath, executable] -> spawnWithPtyWrapper sockPath executable
-    _                      -> error "Usage: pty-wrapper-exe <socketPath> <executable>"
+    (_procTitle:sockPath:executable:args) -> spawnWithPtyWrapper sockPath executable args
+    _                                     -> error "Usage: pty-wrapper-exe <socketPath> <executable>"
