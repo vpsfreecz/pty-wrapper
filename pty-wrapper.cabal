@@ -20,7 +20,6 @@ library
                      , async
                      , aeson
                      , bytestring
-                     , data-default
                      , network
                      , posix-pty
                      , stm

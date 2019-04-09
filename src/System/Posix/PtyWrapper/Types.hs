@@ -2,7 +2,6 @@
 module System.Posix.PtyWrapper.Types where
 
 import Data.Aeson.TH
-import Data.Default
 import Data.Text
 
 data Event = Event {
