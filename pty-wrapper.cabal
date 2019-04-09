@@ -19,6 +19,7 @@ library
   build-depends:       base >= 4.7 && < 5
                      , async
                      , aeson
+                     , base64-bytestring
                      , bytestring
                      , network
                      , posix-pty

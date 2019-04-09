@@ -1,4 +1,4 @@
-{ mkDerivation, aeson, async, base, bytestring, data-default
+{ mkDerivation, aeson, async, base, base64-bytestring, bytestring
 , network, posix-pty, stdenv, stm, text
 }:
 mkDerivation {
@@ -8,7 +8,8 @@ mkDerivation {
   isLibrary = true;
   isExecutable = true;
   libraryHaskellDepends = [
-    aeson async base bytestring data-default network posix-pty stm text
+    aeson async base base64-bytestring bytestring network posix-pty stm
+    text
   ];
   executableHaskellDepends = [ base bytestring ];
   homepage = "https://github.com/vpsfreecz/pty-wrapper";

@@ -14,9 +14,10 @@ import Control.Concurrent.STM
 import Data.Aeson
 
 import System.Posix.Pty
-import qualified Data.ByteString.Char8 as BSC
-import qualified Data.ByteString.Lazy  as BSL
-import qualified Data.Text             as T
+import qualified Data.ByteString.Char8  as BSC
+import qualified Data.ByteString.Lazy   as BSL
+import qualified Data.ByteString.Base64 as B64
+import qualified Data.Text              as T
 
 import System.Posix.PtyWrapper.Types
 
@@ -111,7 +112,7 @@ ptyWriter pty cmdQ = forever $ do
   cmd <- atomically $ readTQueue cmdQ
   case (keys cmd) of
     Nothing -> return ()
-    Just xs -> writePty pty $ BSC.pack $ T.unpack xs
+    Just xs -> writePty pty $ B64.decodeLenient $ BSC.pack $ T.unpack xs
 
   case (rows cmd, cols cmd) of
     (Just rs, Just cs) -> do
@@ -132,9 +133,10 @@ ptyWrapperClient sockPath = do
 
   void $ forkIO $ forever $ do
     l <- getLine
+    let b64l = T.pack . BSC.unpack . B64.encode . BSC.pack $ l
     case l of
       ('!':_) -> sendAll sock (BSL.toStrict $ encode $ Event Nothing (Just 10) (Just 20))
-      _       -> sendAll sock (BSL.toStrict $ encode $ Event (Just $ T.pack l) Nothing Nothing)
+      _       -> sendAll sock (BSL.toStrict $ encode $ Event (Just b64l) Nothing Nothing)
 
   void $ forever $ do
     msg <- recv sock 4096

@@ -5,12 +5,12 @@ Run executable wrapped in pseudoterminal with UNIX domain socket
 for receiving data and controlling it.
 
 Uses simple JSON protocol, `keys` field refers to keys to send to
-the executable, rows and cols (if set) control the size of the
+the executable (base64 encoded), rows and cols (if set) control the size of the
 pseudoterminal. Sample protocol messages:
 
 ```json
-{"keys": "pq", "rows": null, "cols" :null}
-{"keys": null, "rows": 10,   "cols": 20}
+{"keys": "cHE=", "rows": null, "cols" :null}
+{"keys": null,   "rows": 10,   "cols": 20}
 ```
 
 Client side recieves raw data as output from the executable.
