@@ -90,12 +90,14 @@ srv sockPath doRestrictRoot readQueue cmdQueue = bracket (open sockPath) close l
       msg <- atomically $ readTQueue readQ
       sendAll conn msg
 
-    fromClient conn cmdQ = forever $ do
+    fromClient conn cmdQ = do
       msg <- recv conn 4096
       unless (BSC.null msg) $ do
         case (eitherDecode $ BSL.fromStrict msg) of
           Left err -> error $ "JSON parse error: " ++ err
-          Right evt -> atomically $ writeTQueue cmdQ $ evt
+          Right evt -> do
+            atomically $ writeTQueue cmdQ $ evt
+            fromClient conn cmdQ
 
 -- |Read PTY and forward ByteStrings to queue
 ptyReader :: Pty -> TQueue BSC.ByteString -> IO ()
@@ -138,8 +140,11 @@ ptyWrapperClient sockPath = do
       ('!':_) -> sendAll sock (BSL.toStrict $ encode $ Event Nothing (Just 10) (Just 20))
       _       -> sendAll sock (BSL.toStrict $ encode $ Event (Just b64l) Nothing Nothing)
 
-  void $ forever $ do
-    msg <- recv sock 4096
-    unless (BSC.null msg) $ do
-      BSC.putStr msg
+  let recvLoop = do
+        msg <- recv sock 4096
+        unless (BSC.null msg) $ do
+          BSC.putStr msg
+          recvLoop
+
+  recvLoop
   close sock
