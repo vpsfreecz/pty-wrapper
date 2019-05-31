@@ -7,4 +7,4 @@ main = do
   args <- getArgs
   case args of
     (_procTitle:sockPath:executable:args) -> spawnWithPtyWrapper sockPath executable args
-    _                                     -> error "Usage: pty-wrapper-exe <socketPath> <executable>"
+    _                                     -> error "Usage: pty-wrapper-exe <processTitle> <socketPath> <executable> <args>"
